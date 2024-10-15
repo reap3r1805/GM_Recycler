@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Nueva Venta{% endblock %}
+
+{% block content %}
+<h1>Registrar Nueva Venta</h1>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <div class="alert alert-danger">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{% url 'venta_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle de Venta{% endblock %}
+
+{% block content %}
+<h1>Detalle de Venta</h1>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Venta de {{ venta.cliente.nombre }}</h5>
+        <p class="card-text">Fecha: {{ venta.fecha_venta|date:"d/m/Y H:i" }}</p>
+        <p class="card-text">Importe Total: {{ venta.importe_total }} €</p>
+        <a href="{% url 'visita_list' %}" class="btn btn-secondary">Volver a la lista</a>
+    </div>
+</div>
+{% endblock %}
