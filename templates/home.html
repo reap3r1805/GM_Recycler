@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}GM_Recycler{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Bienvenido al Sistema de Compras</h1>
+    <p class="lead">Este sistema te permite gestionar los registros de compras realizadas a vendedores de partes de piezas de autos.</p>
+    <hr class="my-4">
+    <p>Utiliza la barra de navegación para acceder a las diferentes secciones del sistema.</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Clientes</h5>
+                <p class="card-text">Gestiona la información de tus clientes.</p>
+                <a href="{% url 'cliente:index' %}" class="btn btn-primary">Ir a Clientes</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ventas</h5>
+                <p class="card-text">Registra y consulta las ventas realizadas.</p>
+                <a href="{% url 'venta:index' %}" class="btn btn-primary">Ir a Ventas</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Productos</h5>
+                <p class="card-text">Administra tu catálogo de productos.</p>
+                <a href="{% url 'producto:index' %}" class="btn btn-primary">Ir a Productos</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Usuarios</h5>
+                <p class="card-text">Gestiona los usuarios del sistema.</p>
+                <a href="{% url 'usuario:index' %}" class="btn btn-primary">Ir a Usuarios</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

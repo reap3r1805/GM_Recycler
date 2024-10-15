@@ -2,20 +2,20 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
-from .models import Visita
-from .forms import VisitaForm
+from .models import Venta
+from .forms import VentaForm
 
 class VentaListView(ListView):
-    model = Visita
+    model = Venta
     template_name = 'ventas/venta_list.html'
-    context_object_name = 'visitas'
+    context_object_name = 'ventas'
 
 class VentaDetailView(DetailView):
-    model = Visita
+    model = Venta
     template_name = 'ventas/venta_detail.html'
 
 class VentaCreateView(CreateView):
-    model = Visita
-    form_class = VisitaForm
+    model = Venta
+    form_class = VentaForm
     template_name = 'ventas/venta_form.html'
     success_url = reverse_lazy('venta_list')
