@@ -10,6 +10,6 @@
     {% csrf_token %}
     <button type="submit">Sí, eliminar</button>
 </form>
-<a href="{% url 'cliente_detail' cliente.pk %}">Cancelar</a>
+<a href="{% url 'cliente:cliente_detail' cliente.pk %}">Cancelar</a>
 
 {% endblock %}

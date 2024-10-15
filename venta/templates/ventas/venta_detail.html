@@ -9,7 +9,7 @@
         <h5 class="card-title">Venta de {{ venta.cliente.nombre }}</h5>
         <p class="card-text">Fecha: {{ venta.fecha_venta|date:"d/m/Y H:i" }}</p>
         <p class="card-text">Importe Total: {{ venta.importe_total }} €</p>
-        <a href="{% url 'visita_list' %}" class="btn btn-secondary">Volver a la lista</a>
+        <a href="{% url 'venta:venta_list' %}" class="btn btn-secondary">Volver a la lista</a>
     </div>
 </div>
 {% endblock %}

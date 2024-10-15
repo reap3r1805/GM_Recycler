@@ -18,4 +18,4 @@ class VentaCreateView(CreateView):
     model = Venta
     form_class = VentaForm
     template_name = 'ventas/venta_form.html'
-    success_url = reverse_lazy('venta_list')
+    success_url = reverse_lazy('venta:venta_list')

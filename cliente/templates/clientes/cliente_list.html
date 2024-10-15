@@ -5,13 +5,13 @@
 {% block content %}
 
 <h1>Lista de Clientes</h1>
-<a href="{% url 'cliente_create' %}">Crear Nuevo Cliente</a>
+<a href="{% url 'cliente:cliente_create' %}">Crear Nuevo Cliente</a>
 <ul>
 {% for cliente in clientes %}
     <li>
-        <a href="{% url 'cliente_detail' cliente.pk %}">{{ cliente.nombre }}</a>
-        <a href="{% url 'cliente_update' cliente.pk %}">Editar</a>
-        <a href="{% url 'cliente_delete' cliente.pk %}">Eliminar</a>
+        <a href="{% url 'cliente:cliente_detail' cliente.pk %}">{{ cliente.nombre }}</a>
+        <a href="{% url 'cliente:cliente_update' cliente.pk %}">Editar</a>
+        <a href="{% url 'cliente:cliente_delete' cliente.pk %}">Eliminar</a>
     </li>
 {% endfor %}
 </ul>
