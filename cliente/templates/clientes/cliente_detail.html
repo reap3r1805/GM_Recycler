@@ -3,13 +3,17 @@
 {% block title %}Detalles del Cliente{% endblock %}
 
 {% block content %}
-
 <h1>Detalles del Cliente</h1>
 <p>Nombre: {{ cliente.nombre }}</p>
 <p>Email: {{ cliente.email }}</p>
 <p>Teléfono: {{ cliente.telefono }}</p>
+<p>Dirección: {{ cliente.direccion }}</p>
+<p>Número de identificación del vehículo: {{ cliente.numero_identificacion_vehiculo }}</p>
+<p>Año de fabricación del vehículo: {{ cliente.anio_fabricacion_vehiculo }}</p>
+<p>Modelo del vehículo: {{ cliente.modelo_vehiculo }}</p>
+<p>Marca del vehículo: {{ cliente.marca_vehiculo }}</p>
+<p>Fecha de registro: {{ cliente.fecha_registro }}</p>
 <a href="{% url 'cliente:cliente_update' cliente.pk %}">Editar</a>
 <a href="{% url 'cliente:cliente_delete' cliente.pk %}">Eliminar</a>
 <a href="{% url 'cliente:cliente_list' %}">Volver a la lista</a>
-
 {% endblock %}

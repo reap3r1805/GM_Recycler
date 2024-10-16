@@ -3,7 +3,6 @@
 {% block title %}{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Cliente{% endblock %}
 
 {% block content %}
-
 <h1>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Cliente</h1>
 <form method="post">
     {% csrf_token %}
@@ -11,5 +10,4 @@
     <button type="submit">Guardar</button>
 </form>
 <a href="{% url 'cliente:cliente_list' %}">Cancelar</a>
-
 {% endblock %}

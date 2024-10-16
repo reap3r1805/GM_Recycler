@@ -1,4 +1,3 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Cliente
@@ -8,7 +7,6 @@ class ClienteListView(ListView):
     model = Cliente
     template_name = 'clientes/cliente_list.html'
     context_object_name = 'clientes'
-    success_url = reverse_lazy('cliente:cliente_list')
 
 class ClienteDetailView(DetailView):
     model = Cliente
@@ -30,4 +28,3 @@ class ClienteDeleteView(DeleteView):
     model = Cliente
     template_name = 'clientes/cliente_confirm_delete.html'
     success_url = reverse_lazy('cliente:cliente_list')
-
