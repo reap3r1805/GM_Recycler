@@ -9,17 +9,27 @@ class ProductoForm(forms.ModelForm):
         fields = ['nombre', 'imagen', 'precio']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'imagen': forms.FileInput(attrs={'class': 'form-control'}),
+            'precio': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 class DetalleCompraForm(forms.ModelForm):
     class Meta:
         model = DetalleCompra
         fields = ['producto', 'cantidad', 'precio_unitario']
+        widgets = {
+            'producto': forms.TextInput(attrs={'class': 'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class': 'form-control'}),
+            'precio_unitario': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
 
 class CompraForm(forms.ModelForm):
     class Meta:
         model = Compra
         fields = ['cliente']
+        widgets = {
+            'cliente': forms.Select(attrs={'class': 'form-control'}),
+        }
     
     detalles = forms.formset_factory(DetalleCompraForm, extra=1)
 

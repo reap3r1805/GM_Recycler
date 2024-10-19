@@ -51,3 +51,4 @@ def buscar_cliente(request):
     return render(request, 'compra/buscar_cliente.html', {
         'clientes': clientes
     })
+
