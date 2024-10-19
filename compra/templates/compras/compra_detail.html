@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalles de Compra{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-4">
+
+        <h2>Detalle de Compras</h2>
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5 class="card-title">CCID: {{ compra.ccid }}</h5>
+                <p class="card-text">Cliente: {{ compra.cliente.nombre }}</p>
+                <p class="card-text">Fecha: {{ compra.fecha_creación|date:"d/m/Y H:i" }}</p>
+
+                <h6 class="mt-4">Productos:</h6>
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Producto</th>
+                            <th>Imágen</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Subtotal</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for detalle in compra.detallecompra_set.all %}
+
+                            <tr>
+
+                                <td>{{ detalle.producto.nombre }}</td>
+                                <td>
+
+                                    {% if detalle.producto.imagen %}
+                                        <img src="{{ detalle.producto.imagen.url }}" alt="{{ detalle.producto.nombre }}" style="max-width: 50px; max-height: 50px;">
+                                    {% else %}
+                                        Sin imagen
+                                    {% endif %}
+
+                                </td>
+                                <td>{{ detalle.cantidad }}</td>
+                                <td>{{ detalle.precio_unitario }}</td>
+                                <td>{{ detalle.cantidad|multiply:detalle.preciounitario }}</td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                    <tfoot>
+
+                        <tr>
+
+                            <th colspan="4" class="text-right">Total</th>
+                            <th>{{ compra.total }}</th>
+
+                        </tr>
+
+                    </tfoot>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <a href="{% url 'compra:compra_list' %}" class="btn btn-secondary mt-3">Volver a la Lista</a>
+        <a href="{% url 'compra:compra_update' compra.pk %}" class="btn btn-warning mt-3">Editar</a>
+
+    </div>
+
+{% endblock %}
