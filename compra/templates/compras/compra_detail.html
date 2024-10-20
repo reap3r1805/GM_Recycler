@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+<!-- {% extends 'base.html' %}
 
 {% block title %}Detalles de Compra{% endblock %}
 
@@ -81,4 +81,39 @@
 
     </div>
 
+{% endblock %} -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Detalle de Compra</h2>
+<p><strong>CCID:</strong> {{ object.ccid }}</p>
+<p><strong>Cliente:</strong> {{ object.cliente }}</p>
+<p><strong>Fecha:</strong> {{ object.fecha }}</p>
+<p><strong>Total:</strong> ${{ object.total }}</p>
+
+<h3>Productos</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in object.productos.all %}
+        <tr>
+            <td><img src="{{ producto.imagen.url }}" alt="Producto" width="50"></td>
+            <td>{{ producto.cantidad }}</td>
+            <td>${{ producto.precio_unitario }}</td>
+            <td>${{ producto.subtotal }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'compra:compra_list' %}" class="btn btn-secondary">Volver a la lista</a>
+<a href="{% url 'compra:compra_update' object.id %}" class="btn btn-warning">Editar</a>
 {% endblock %}

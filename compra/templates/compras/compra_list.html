@@ -1,51 +1,51 @@
 {% extends 'base.html' %}
 
-{% block title %}Lista de Compras{% endblock %}
-
 {% block content %}
+<h2>Lista de Compras</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>CCID</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for compra in object_list %}
+        <tr>
+            <td>{{ compra.id }}</td>
+            <td>{{ compra.ccid }}</td>
+            <td>{{ compra.cliente }}</td>
+            <td>{{ compra.fecha }}</td>
+            <td>${{ compra.total }}</td>
+            <td>
+                <a href="{% url 'compra:compra_detail' compra.id %}" class="btn btn-info btn-sm">Ver</a>
+                <a href="{% url 'compra:compra_update' compra.id %}" class="btn btn-warning btn-sm">Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-<div class="container mt-4">
+{% if is_paginated %}
+<nav>
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if page_obj.number == num %}active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
 
-    <h2>Lista de Compras</h2>
-    <a href="{% url 'compra:compra_create' %}" class="btn btn-primary mb-3">Nueva Compra</a>
-    <table class="table table-striped">
-
-        <thead>
-
-            <tr>
-
-                <th>CCID</th>
-                <th>Cliente</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            {% for compra in compras %}
-            <tr>
-
-                <td>{{ compra.ccid }}</td>
-                <td>{{ compra.cliente.nombre }}</td>
-                <td>{{ compra.fecha_creación|date:"d/m/Y H:i" }}</td>
-                <td>
-
-                    <a href="{% url 'compra:compra_detail' compra.pk %}" class="btn btn-info btn-sm">Ver</a>
-                    <a href="{% url 'compra:compra_update' compra.pk %}" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="{% url 'compra:compra_delete' compra.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
-
-                </td>
-
-            </tr>
-            {% endfor %}
-
-        </tbody>
-
-    </table>
-
-</div>
-
+<a href="{% url 'compra:compra_form' %}" class="btn btn-primary">Nueva Compra</a>
+<a href="{% url 'compra:exportar_pdf' %}" class="btn btn-secondary">Exportar a PDF</a>
 {% endblock %}

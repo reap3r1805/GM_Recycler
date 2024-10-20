@@ -1,67 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Compra{% endblock %}
-
 {% block content %}
-
-    <div class="container mt-4">
-
-        <h2>{% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Compra</h2>
-
-        <form method="post" enctype="multipart/form-data">
-
-            {% csrf_token %}
-
-            <div class="form-group">
-
-                <label for="id_cliente">Cliente</label>
-                {{ form.cliente }}
-
+<h2>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Compra</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <select id="cliente-results"></select>
+    <div id="productos-formset">
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="producto-form">
+                {{ form.as_p }}
             </div>
-
-            <div class="form-group">
-
-                <label>Buscar Cliente:</label>
-                <input type="text" id="buscar_cliente" class="form-control" placeholder="Nombre o Teléfono">
-                <div id="resultados_busqueda"></div>
-
-            </div>
-
-            <h3 class="mt-4">Productos</h3>
-
-            {{ form.detalles.management_form }}
-            
-            <div id="detalles-container">
-
-                {% for detalle_form in form.detalles %}
-
-                    <div class="detalle-form">
-
-                        {{ detalle_form.as_p }}
-
-                        <button type="button" class="btn btn-danger btn-sm remove-detalle">Eliminar</button>
-
-                    </div>
-
-                {% endfor %}
-
-            </div>
-
-            <button type="button" class="btn btn-success" id="add-detalle">Agregar Producto</button>
-
-            <button type="submit" class="btn btn-primary mt-3">Guardar</button>
-
-            <a href="{% url 'compra:compra_list' %}" class="btn btn-secondary mt-3">Cancelar</a>
-
-        </form>
-
+        {% endfor %}
     </div>
+    <button type="button" id="add-producto">Agregar Producto</button>
+    <button type="submit">Guardar</button>
+    <a href="{% url 'compra:compra_list' %}">Cancelar</a>
+</form>
 
-    {% block extra_js %}
+<p>Total: $<span id="total">0.00</span></p>
 
-    <script src="{% static 'js/compra_form.js' %}"></script>
+<div id="formset-data" data-total-forms="{{ formset.total_form_count }}"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
     
-    {% endblock %}
-
+    $(document).ready(function() {
+        // Búsqueda de clientes en tiempo real
+        $('#id_cliente').on('input', function() {
+            var query = $(this).val();
+            $.ajax({
+                url: '{% url "compra:buscar_cliente" %}',
+                data: {
+                    'query': query
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var results = data.results;
+                    var dropdown = $('#cliente-results');
+                    dropdown.empty();
+                    $.each(results, function(i, item) {
+                        dropdown.append($('<option></option>').attr('value', item.id).text(item.nombre + ' - ' + item.telefono));
+                    });
+                }
+            });
+        });
+    
+        // Adición dinámica de productos
+        //var formCount = {{ formset.total_form_count }};
+        var formCount = parseInt($('#formset-data').data('totalForms'));
+        $('#add-producto').click(function() {
+            var form = $('.producto-form:first').clone(true);
+            form.find('input').val('');
+            form.find('input:first').attr('name', form.find('input:first').attr('name').replace('-0-', '-' + formCount + '-'));
+            $('#productos-formset').append(form);
+            $('#id_form-TOTAL_FORMS').val(formCount + 1);
+            formCount++;
+        });
+    
+        // Eliminación de productos
+        $(document).on('click', '.remove-producto', function() {
+            $(this).closest('.producto-form').remove();
+            updateTotal();
+        });
+    
+        // Cálculo del total
+        $(document).on('input', '.cantidad, .precio', function() {
+            updateTotal();
+        });
+    
+        function updateTotal() {
+            let total = 0;
+            $('.producto-form').each(function() {
+                let cantidad = parseFloat($(this).find('.cantidad').val()) || 0;
+                let precio = parseFloat($(this).find('.precio').val()) || 0;
+                total += cantidad * precio;
+            });
+            $('#total').text(total.toFixed(2));
+        }
+    });
+    </script>
 {% endblock %}
